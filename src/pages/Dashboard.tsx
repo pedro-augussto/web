@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { api } from "../services/api";
+import { AxiosError } from "axios";
 import { Input } from "../components/Input";
 import searchSvg from "../assets/search.svg";
 import { Button } from "../components/Button";
-import { CATEGORIES } from "../utils/categories";
+import { CATEGORIES } from "../utils/Categories";
 import { Pagination } from "../components/Pagination";
-import { RefundItem, RefundItemProps } from "../components/RefundItem";
 import { formatCurrency } from "../utils/formatCurrency";
+import { RefundItem, RefundItemProps } from "../components/RefundItem";
 
 const REFUND_EXAMPLE = {
   id: "123",
@@ -15,14 +17,30 @@ const REFUND_EXAMPLE = {
   categoryImg: CATEGORIES["transport"].icon,
 };
 
+const PER_PAGE = 5;
+
 export function Dashboard() {
   const [name, setName] = useState("");
   const [page, setPage] = useState(1);
-  const [totalOfPage, setTotalPage] = useState(10);
+  const [totalOfPage, setTotalPage] = useState(0);
   const [refunds, setRefunds] = useState<RefundItemProps[]>([REFUND_EXAMPLE]);
 
-  function fetchRefund(e: React.FormEvent) {
-    e.preventDefault();
+  async function fetchRefund() {
+    try {
+      const response = await api.get(
+        `/refunds?name=${name.trim()}&page=${page}&perPage=${PER_PAGE}`
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+
+      if (error instanceof AxiosError) {
+        return alert(error.response?.data.message);
+      }
+
+      alert("Nao foi possivel carregar")
+    }
   }
 
   function handlePagination(action: "next" | "previous") {
@@ -38,6 +56,10 @@ export function Dashboard() {
       return prevPage;
     });
   }
+
+  useEffect(() => {
+    fetchRefund();
+  }, []);
 
   return (
     <div className=" bg-gray-500 rounded-xl p-10 md:min-w-[768px]">
