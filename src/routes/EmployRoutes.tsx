@@ -4,7 +4,7 @@ import { NotFound } from "../pages/NotFound";
 import { Confirm } from "../pages/Confirm";
 import { AppLayout } from "../components/AppLayout";
 
-export function EmployeRoutes() {
+export function EmployeeRoutes() {
   return (
     <Routes>
       <Route path="/" element={<AppLayout />}>
