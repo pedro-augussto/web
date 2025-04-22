@@ -9,21 +9,13 @@ import { Pagination } from "../components/Pagination";
 import { formatCurrency } from "../utils/formatCurrency";
 import { RefundItem, RefundItemProps } from "../components/RefundItem";
 
-const REFUND_EXAMPLE = {
-  id: "123",
-  name: "Pedro",
-  category: "Transporte",
-  amount: formatCurrency(42.2),
-  categoryImg: CATEGORIES["transport"].icon,
-};
-
 const PER_PAGE = 5;
 
 export function Dashboard() {
   const [name, setName] = useState("");
   const [page, setPage] = useState(1);
   const [totalOfPage, setTotalPage] = useState(0);
-  const [refunds, setRefunds] = useState<RefundItemProps[]>([REFUND_EXAMPLE]);
+  const [refunds, setRefunds] = useState<RefundItemProps[]>([]);
 
   async function fetchRefund() {
     try {
@@ -31,7 +23,19 @@ export function Dashboard() {
         `/refunds?name=${name.trim()}&page=${page}&perPage=${PER_PAGE}`
       );
 
-      console.log(response.data);
+      //console.log(response.data);
+
+      setRefunds(
+        response.data.refund.map((refund) => ({
+          id: refund.id,
+          name: refund.user.name,
+          description: refund.name,
+          amount: formatCurrency(refund.amount),
+          categoryImg: CATEGORIES[refund.category].icon,
+        }))
+      );
+
+      setTotalPage(response.data.pagination.totalPages);
     } catch (error) {
       console.log(error);
 
@@ -39,7 +43,7 @@ export function Dashboard() {
         return alert(error.response?.data.message);
       }
 
-      alert("Nao foi possivel carregar")
+      alert("Nao foi possivel carregar");
     }
   }
 
