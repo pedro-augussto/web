@@ -14,9 +14,18 @@ Este é um projeto front-end desenvolvido com **Vite** e **TypeScript**, com o o
 ---
 
 ## 📁 Estrutura do Projeto
-
-├── public/ # Arquivos públicos ├── src/ # Código-fonte da aplicação │ ├── assets/ # Imagens e outros recursos estáticos │ ├── components/ # Componentes reutilizáveis │ ├── App.tsx # Componente principal da aplicação │ └── main.tsx # Ponto de entrada da aplicação ├── index.html # Página HTML principal ├── package.json # Gerenciador de dependências ├── tsconfig.json # Configuração do TypeScript └── vite.config.ts 
-
+```bash
+├── public/                 # Arquivos públicos
+├── src/                    # Código-fonte da aplicação
+│   ├── assets/             # Imagens e outros recursos estáticos
+│   ├── components/         # Componentes reutilizáveis
+│   ├── App.tsx             # Componente principal da aplicação
+│   └── main.tsx            # Ponto de entrada da aplicação
+├── index.html              # Página HTML principal
+├── package.json            # Gerenciador de dependências
+├── tsconfig.json           # Configuração do TypeScript
+└── vite.config.ts          # Configuração do Vite
+```
 # Configuração do Vite
 
 
